@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ROAST & CO | Кофейня & Пекарня</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; }
+        body { background: #1c1917; color: #f5f5f4; padding: 20px; max-width: 480px; margin: 0 auto; padding-bottom: 100px; }
+        .header { text-align: center; margin-bottom: 24px; padding-top: 10px; }
+        .logo { width: 84px; height: 84px; border-radius: 24px; background: linear-gradient(135deg, #d97706, #92400e); margin: 0 auto 14px; display: flex; align-items: center; justify-content: center; font-size: 40px; box-shadow: 0 8px 20px rgba(217, 119, 6, 0.25); }
+        h1 { font-size: 24px; letter-spacing: 0.5px; margin-bottom: 6px; color: #fff; }
+        .subtitle { color: #a8a29e; font-size: 14px; }
+        .badge { display: inline-block; background: rgba(217, 119, 6, 0.15); color: #fbbf24; padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600; margin-top: 10px; border: 1px solid rgba(251, 191, 36, 0.3); }
+        .card { background: #292524; border-radius: 18px; padding: 18px; margin-bottom: 16px; border: 1px solid #3f3a36; }
+        h2 { font-size: 17px; margin-bottom: 14px; color: #fbbf24; display: flex; align-items: center; gap: 8px; }
+        .menu-item { display: flex; justify-content: space-between; align-items: center; padding: 12px 0; border-bottom: 1px solid #3f3a36; }
+        .menu-item:last-child { border-bottom: none; padding-bottom: 0; }
+        .item-info { flex: 1; padding-right: 10px; }
+        .item-name { font-size: 15px; font-weight: 600; color: #fff; margin-bottom: 3px; }
+        .item-desc { font-size: 12px; color: #a8a29e; line-height: 1.3; }
+        .item-price { font-weight: 700; color: #fbbf24; font-size: 15px; margin-right: 12px; white-space: nowrap; }
+        .counter { display: flex; align-items: center; gap: 8px; background: #1c1917; padding: 4px 8px; border-radius: 10px; border: 1px solid #44403c; }
+        .cnt-btn { background: none; border: none; color: #fbbf24; font-size: 18px; font-weight: 700; width: 24px; height: 24px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .cnt-val { font-size: 14px; font-weight: 600; min-width: 16px; text-align: center; }
+        .time-selector { display: flex; gap: 8px; margin-top: 8px; }
+        .time-btn { flex: 1; padding: 10px; border-radius: 10px; background: #1c1917; border: 1px solid #44403c; color: #d6d3d1; font-size: 13px; font-weight: 500; cursor: pointer; transition: 0.2s; }
+        .time-btn.active { background: #d97706; color: #fff; border-color: #d97706; font-weight: 600; }
+        .info-row { display: flex; align-items: center; gap: 10px; font-size: 14px; color: #d6d3d1; margin-bottom: 10px; }
+        .info-row:last-child { margin-bottom: 0; }
+        .bottom-bar { position: fixed; bottom: 0; left: 0; right: 0; background: #292524; border-top: 1px solid #44403c; padding: 14px 20px; max-width: 480px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 12px; box-shadow: 0 -4px 20px rgba(0,0,0,0.4); }
+        .total-info { display: flex; flex-direction: column; }
+        .total-label { font-size: 12px; color: #a8a29e; }
+        .total-sum { font-size: 19px; font-weight: 700; color: #fff; }
+        .order-btn { background: #d97706; color: #fff; border: none; padding: 14px 22px; border-radius: 12px; font-weight: 600; font-size: 15px; cursor: pointer; flex: 1; max-width: 230px; box-shadow: 0 4px 12px rgba(217, 119, 6, 0.35); }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo">☕</div>
+        <h1>ROAST & CO</h1>
+        <p class="subtitle">Спешелти кофе • Свежая выпечка • Предзаказ без очереди</p>
+        <div class="badge">🔥 Каждый 6-й кофе в подарок</div>
+    </div>
+
+    <div class="card">
+        <h2>☕ Классика и авторский кофе</h2>
+        <div class="menu-item" data-name="Капучино (300 мл)" data-price="220">
+            <div class="item-info">
+                <div class="item-name">Капучино (300 мл)</div>
+                <div class="item-desc">100% арабика Бразилия, нежная молочная пенка</div>
+            </div>
+            <div class="item-price">220 ₽</div>
+            <div class="counter">
+                <button class="cnt-btn" onclick="changeQty(this, -1)">−</button>
+                <span class="cnt-val">0</span>
+                <button class="cnt-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+        </div>
+        <div class="menu-item" data-name="Раф Солёная карамель" data-price="290">
+            <div class="item-info">
+                <div class="item-name">Раф Солёная карамель</div>
+                <div class="item-desc">Сливки, эспрессо и домашняя карамель</div>
+            </div>
+            <div class="item-price">290 ₽</div>
+            <div class="counter">
+                <button class="cnt-btn" onclick="changeQty(this, -1)">−</button>
+                <span class="cnt-val">0</span>
+                <button class="cnt-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+        </div>
+        <div class="menu-item" data-name="Айс Латте (350 мл)" data-price="250">
+            <div class="item-info">
+                <div class="item-name">Айс Латте (350 мл)</div>
+                <div class="item-desc">Холодный кофе со льдом и сиропом на выбор</div>
+            </div>
+            <div class="item-price">250 ₽</div>
+            <div class="counter">
+                <button class="cnt-btn" onclick="changeQty(this, -1)">−</button>
+                <span class="cnt-val">0</span>
+                <button class="cnt-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>🥐 Выпечка и десерты</h2>
+        <div class="menu-item" data-name="Круассан с миндалём" data-price="190">
+            <div class="item-info">
+                <div class="item-name">Круассан с миндалём</div>
+                <div class="item-desc">Хрустящее слоёное тесто и миндальный крем</div>
+            </div>
+            <div class="item-price">190 ₽</div>
+            <div class="counter">
+                <button class="cnt-btn" onclick="changeQty(this, -1)">−</button>
+                <span class="cnt-val">0</span>
+                <button class="cnt-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+        </div>
+        <div class="menu-item" data-name="Чизкейк Сан-Себастьян" data-price="310">
+            <div class="item-info">
+                <div class="item-name">Чизкейк Сан-Себастьян</div>
+                <div class="item-desc">Нежный обожжённый чизкейк с шоколадом</div>
+            </div>
+            <div class="item-price">310 ₽</div>
+            <div class="counter">
+                <button class="cnt-btn" onclick="changeQty(this, -1)">−</button>
+                <span class="cnt-val">0</span>
+                <button class="cnt-btn" onclick="changeQty(this, 1)">+</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>⏱ Когда приготовить заказ?</h2>
+        <div class="time-selector">
+            <button class="time-btn active" onclick="selectTime(this, 'через 10 мин')">Через 10 мин</button>
+            <button class="time-btn" onclick="selectTime(this, 'через 20 мин')">Через 20 мин</button>
+            <button class="time-btn" onclick="selectTime(this, 'на месте')">В кофейне</button>
+        </div>
+    </div>
+
+    <div class="card">
+        <h2>📍 Контакты кофейни</h2>
+        <div class="info-row">🏠 Центр города, пр. Путина, 15</div>
+        <div class="info-row">🕒 Ежедневно с 08:00 до 22:00</div>
+        <div class="info-row">📶 Бесплатный Wi-Fi и розетки у каждого столика</div>
+    </div>
+
+    <div class="bottom-bar">
+        <div class="total-info">
+            <span class="total-label">Ваш заказ:</span>
+            <span class="total-sum" id="totalSum">0 ₽</span>
+        </div>
+        <button class="order-btn" onclick="sendOrder()">Заказать в Telegram</button>
+    </div>
+
+    <script>
+        let selectedTime = 'через 10 мин';
+
+        function selectTime(btn, time) {
+            document.querySelectorAll('.time-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            selectedTime = time;
+        }
+
+        function changeQty(btn, delta) {
+            const valEl = btn.parentElement.querySelector('.cnt-val');
+            let qty = parseInt(valEl.innerText) + delta;
+            if (qty < 0) qty = 0;
+            valEl.innerText = qty;
+            updateTotal();
+        }
+
+        function updateTotal() {
+            let total = 0;
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const price = parseInt(item.getAttribute('data-price'));
+                const qty = parseInt(item.querySelector('.cnt-val').innerText);
+                total += price * qty;
+            });
+            document.getElementById('totalSum').innerText = total.toLocaleString('ru-RU') + ' ₽';
+        }
+
+        function sendOrder() {
+            let items = [];
+            let total = 0;
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const name = item.getAttribute('data-name');
+                const price = parseInt(item.getAttribute('data-price'));
+                const qty = parseInt(item.querySelector('.cnt-val').innerText);
+                if (qty > 0) {
+                    items.push(`${name} x${qty}`);
+                    total += price * qty;
+                }
+            });
+
+            if (items.length === 0) {
+                alert('Сначала выберите напитки или десерты из меню с помощью кнопок + / −');
+                return;
+            }
+
